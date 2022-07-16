@@ -1,0 +1,48 @@
+.main {
+  display: flex;
+  justify-content: space-around;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+}
+
+.display {
+  display: grid;
+  grid-template-columns: 1fr;
+  line-height: 1.5rem;
+  border: 1px solid black;
+
+  .input {
+    @extend .scrollable;
+
+    .caret {
+      @keyframes blink {
+        50% {
+          opacity: 0.33;
+        }
+      }
+      animation: blink 1s step-start 0s infinite;
+    }
+  }
+
+  .output {
+    @extend .scrollable;
+    text-align: end;
+  }
+
+  .scrollable {
+    width: 200px;
+    overflow-x: hidden;
+  }
+}
+
+.keypad {
+  display: grid;
+
+  .key {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
