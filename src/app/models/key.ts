@@ -1,168 +1,143 @@
-import { Value } from "./value";
+import { Context } from "./context"
+import { Display } from "./display"
+import { MathValue } from "./math-value"
 
-export interface Key {
-    gridArea: string
-    composable: boolean
-    value: Value
+export interface Key extends Display {
+    readonly gridArea: string
+    operate: (context: Context) => void
+}
+
+export class NumericKey implements Key, MathValue {
+    readonly mathValue: string
+
+    constructor(
+        readonly displayValue: string,
+        readonly gridArea: string,
+    ) {
+        this.mathValue = displayValue;
+    }
+
+    operate(context: Context): void {
+        if (context.outputDisplay) {
+            context.clear();
+        }
+        context.inputs.push(this)
+    }
+}
+
+export class MathKey implements Key, MathValue {
+    constructor(
+        readonly displayValue: string,
+        readonly mathValue: string,
+        readonly gridArea: string,
+    ) { }
+
+    operate(context: Context): void {
+        if (context.outputDisplay) {
+            context.clear();
+            context.inputs.push(context.lastOutput);
+        }
+        context.inputs.push(this);
+    }
 }
 
 export const keys: Array<Key> = [
-    {
-        gridArea: 'seven',
-        composable: false,
-        value: {
-            displayValue: '7',
-            mathValue: '7',
-        }
-    },
-    {
-        gridArea: 'eight',
-        composable: false,
-        value: {
-            displayValue: '8',
-            mathValue: '8',
-        }
-    },
-    {
-        gridArea: 'nine',
-        composable: false,
-        value: {
-            displayValue: '9',
-            mathValue: '9',
-        }
-    },
-    {
-        gridArea: 'four',
-        composable: false,
-        value: {
-            displayValue: '4',
-            mathValue: '4',
-        }
-    },
-    {
-        gridArea: 'five',
-        composable: false,
-        value: {
-            displayValue: '5',
-            mathValue: '5',
-        }
-    },
-    {
-        gridArea: 'six',
-        composable: false,
-        value: {
-            displayValue: '6',
-            mathValue: '6',
-        }
-    },
-    {
-        gridArea: 'one',
-        composable: false,
-        value: {
-            displayValue: '1',
-            mathValue: '1',
-        }
-    },
-    {
-        gridArea: 'two',
-        composable: false,
-        value: {
-            displayValue: '2',
-            mathValue: '2',
-        }
-    },
-    {
-        gridArea: 'three',
-        composable: false,
-        value: {
-            displayValue: '3',
-            mathValue: '3',
-        }
-    },
-    {
-        gridArea: 'zero',
-        composable: false,
-        value: {
-            displayValue: '0',
-            mathValue: '0',
-        }
-    },
-    {
-        gridArea: 'dec',
-        composable: false,
-        value: {
-            displayValue: '.',
-            mathValue: '.',
-        }
-    },
+    new NumericKey(
+        '7',
+        'seven',
+    ),
+    new NumericKey(
+        '8',
+        'eight',
+    ),
+    new NumericKey(
+        '9',
+        'nine',
+    ),
+    new NumericKey(
+        '4',
+        'four',
+    ),
+    new NumericKey(
+        '5',
+        'five',
+    ),
+    new NumericKey(
+        '6',
+        'six',
+    ),
+    new NumericKey(
+        '1',
+        'one',
+    ),
+    new NumericKey(
+        '2',
+        'two',
+    ),
+    new NumericKey(
+        '3',
+        'three',
+    ),
+    new NumericKey(
+        '0',
+        'zero',
+    ),
+    new NumericKey(
+        '.',
+        'dec',
+    ),
+    new MathKey(
+        '×',
+        '*',
+        'mul',
+    ),
+    new MathKey(
+        '÷',
+        '/',
+        'div',
+    ),
+    new MathKey(
+        '+',
+        '+',
+        'add',
+    ),
+    new MathKey(
+        '−',
+        '-',
+        'sub',
+    ),
     {
         gridArea: 'del',
-        composable: false,
-        value: {
-            displayValue: 'DEL',
-            inputOperation: (inputs: Array<Value>) => inputs.pop()
+        displayValue: 'DEL',
+        operate: (context: Context) => {
+            context.inputs.pop();
+            context.outputDisplay = undefined;
         }
     },
     {
         gridArea: 'ac',
-        composable: false,
-        value: {
-            displayValue: 'AC',
-            inputOperation: (inputs: Array<Value>) => inputs.length = 0
+        displayValue: 'AC',
+        operate: (context: Context) => {
+            context.clear();
         }
     },
     {
-        gridArea: 'mul',
-        composable: true,
-        value: {
-            displayValue: '×',
-            mathValue: '*',
-        }
-    },
-    {
-        gridArea: 'div',
-        composable: true,
-        value: {
-            displayValue: '÷',
-            mathValue: '/',
-        }
-    },
-    {
-        gridArea: 'add',
-        composable: true,
-        value: {
-            displayValue: '+',
-            mathValue: '+',
-        }
-    },
-    {
-        gridArea: 'sub',
-        composable: true,
-        value: {
-            displayValue: '−',
-            mathValue: '-',
-        }
-    },
-    {
+        displayValue: 'Ans',
         gridArea: 'ans',
-        composable: false,
-        value: {
-            displayValue: 'Ans'
+        operate: function (context: Context) {
+            context.inputs.push({
+                ...this,
+                mathValue: context.lastOutput.mathValue
+            })
         }
     },
     {
         gridArea: 'eq',
-        composable: false,
-        value: {
-            displayValue: '=',
-            outputOperation: (inputs: Array<Value>) => {
-                const expr = inputs.reduce((expr, { mathValue }) => expr += mathValue, '');
-                const output = eval(expr);
-                return {
-                    displayValue: output,
-                    mathValue: output,
-                };
-            }
+        displayValue: '=',
+        operate: (context: Context) => {
+            const expr = context.inputs.reduce((expr, { mathValue }) => expr += mathValue, '');
+            const output = String(eval(expr));
+            context.setOutput(output);
         }
-    }
+    },
 ]

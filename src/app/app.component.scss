@@ -60,10 +60,10 @@
   display: grid;
   grid-auto-columns: 1fr;
   grid-template-areas:
-    "seven eight nine  del ac "
-    "four  five  six   mul div"
-    "one   two   three add sub"
-    "zero  dec   null  ans eq ";
+    "seven eight nine  del   ac "
+    "four  five  six   mul   div"
+    "one   two   three add   sub"
+    "zero  dec   null  ans   eq ";
 
   .key {
     font-size: inherit;
