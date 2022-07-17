@@ -1,48 +1,72 @@
-.main {
+.calculator-container {
   display: flex;
   justify-content: space-around;
 }
 
+@media (min-aspect-ratio: 5/6) {
+  .calculator {
+    height: 95vh;
+  }
+}
+
+@media (max-aspect-ratio: 5/6) {
+  .calculator {
+    width: 95vw;
+  }
+}
+
 .calculator {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  aspect-ratio: 5/6;
+  font-size: min(6vw, 5vh);
+}
+
+.display-container {
+  display: table;
+  table-layout: fixed;
 }
 
 .display {
   display: grid;
   grid-template-columns: 1fr;
-  line-height: 1.5rem;
+  height: 99.5%;
   border: 1px solid black;
+}
 
-  .input {
-    @extend .scrollable;
+.display-cell {
+  margin: auto 0;
+}
 
-    .caret {
-      @keyframes blink {
-        50% {
-          opacity: 0.33;
-        }
-      }
-      animation: blink 1s step-start 0s infinite;
+.input {
+  @extend .display-cell;
+  overflow-x: hidden;
+}
+.output {
+  @extend .display-cell;
+  text-align: end;
+}
+
+.caret {
+  @keyframes blink {
+    50% {
+      opacity: 0.33;
     }
   }
-
-  .output {
-    @extend .scrollable;
-    text-align: end;
-  }
-
-  .scrollable {
-    width: 200px;
-    overflow-x: hidden;
-  }
+  animation: blink 1s step-start 0s infinite;
 }
 
 .keypad {
   display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-areas:
+    "seven eight nine  del ac "
+    "four  five  six   mul div"
+    "one   two   three add sub"
+    "zero  dec   null  ans eq ";
 
   .key {
-    width: 2.5rem;
-    height: 2.5rem;
+    font-size: inherit;
+    aspect-ratio: 1/1;
   }
 }

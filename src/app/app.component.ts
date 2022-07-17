@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Key, keys } from './models/key';
 import { Value } from './models/value';
 
@@ -12,6 +12,9 @@ export class AppComponent {
   inputs: Array<Value> = [];
   output?: Value;
   lastOutput?: Value;
+  @ViewChild('caretEl')
+  caretEl!: ElementRef;
+
 
   get keys() {
     return keys;
@@ -47,6 +50,7 @@ export class AppComponent {
         this.output = undefined;
       }
       this.inputs.push(value);
+      this.caretEl.nativeElement.scrollIntoView({ inline: 'start' });
     }
   }
 }

@@ -1,16 +1,14 @@
 import { Value } from "./value";
 
 export interface Key {
-    row: number
-    col: number
+    gridArea: string
     composable: boolean
     value: Value
 }
 
 export const keys: Array<Key> = [
     {
-        row: 1,
-        col: 1,
+        gridArea: 'seven',
         composable: false,
         value: {
             displayValue: '7',
@@ -18,8 +16,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 1,
-        col: 2,
+        gridArea: 'eight',
         composable: false,
         value: {
             displayValue: '8',
@@ -27,8 +24,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 1,
-        col: 3,
+        gridArea: 'nine',
         composable: false,
         value: {
             displayValue: '9',
@@ -36,8 +32,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 2,
-        col: 1,
+        gridArea: 'four',
         composable: false,
         value: {
             displayValue: '4',
@@ -45,8 +40,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 2,
-        col: 2,
+        gridArea: 'five',
         composable: false,
         value: {
             displayValue: '5',
@@ -54,8 +48,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 2,
-        col: 3,
+        gridArea: 'six',
         composable: false,
         value: {
             displayValue: '6',
@@ -63,8 +56,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 3,
-        col: 1,
+        gridArea: 'one',
         composable: false,
         value: {
             displayValue: '1',
@@ -72,8 +64,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 3,
-        col: 2,
+        gridArea: 'two',
         composable: false,
         value: {
             displayValue: '2',
@@ -81,8 +72,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 3,
-        col: 3,
+        gridArea: 'three',
         composable: false,
         value: {
             displayValue: '3',
@@ -90,8 +80,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 4,
-        col: 1,
+        gridArea: 'zero',
         composable: false,
         value: {
             displayValue: '0',
@@ -99,8 +88,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 4,
-        col: 2,
+        gridArea: 'dec',
         composable: false,
         value: {
             displayValue: '.',
@@ -108,8 +96,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 1,
-        col: 4,
+        gridArea: 'del',
         composable: false,
         value: {
             displayValue: 'DEL',
@@ -117,8 +104,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 1,
-        col: 5,
+        gridArea: 'ac',
         composable: false,
         value: {
             displayValue: 'AC',
@@ -126,8 +112,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 2,
-        col: 4,
+        gridArea: 'mul',
         composable: true,
         value: {
             displayValue: '×',
@@ -135,8 +120,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 2,
-        col: 5,
+        gridArea: 'div',
         composable: true,
         value: {
             displayValue: '÷',
@@ -144,8 +128,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 3,
-        col: 4,
+        gridArea: 'add',
         composable: true,
         value: {
             displayValue: '+',
@@ -153,8 +136,7 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 3,
-        col: 5,
+        gridArea: 'sub',
         composable: true,
         value: {
             displayValue: '−',
@@ -162,16 +144,14 @@ export const keys: Array<Key> = [
         }
     },
     {
-        row: 4,
-        col: 4,
+        gridArea: 'ans',
         composable: false,
         value: {
             displayValue: 'Ans'
         }
     },
     {
-        row: 4,
-        col: 5,
+        gridArea: 'eq',
         composable: false,
         value: {
             displayValue: '=',

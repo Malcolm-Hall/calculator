@@ -1,17 +1,18 @@
-<div class="main">
+<div class="calculator-container">
   <div class="calculator">
     <div class="display">
       <div class="input">
-        &nbsp;{{ inputDisplay }}<span class="caret">|</span>
+        &nbsp;&nbsp;{{ inputDisplay
+        }}<span #caretEl class="caret">|</span>&nbsp;&nbsp;&nbsp;
       </div>
-      <div class="output">{{ output?.displayValue }}&nbsp;</div>
+      <div class="output">{{ output?.displayValue }}&nbsp;&nbsp;</div>
     </div>
     <div class="keypad">
       <ng-container *ngFor="let key of keys">
         <button
           class="key"
           (click)="addInput(key)"
-          [ngStyle]="{ 'grid-column': key.col, 'grid-row': key.row }"
+          [style.grid-area]="key.gridArea"
         >
           {{ key.value.displayValue }}
         </button>
