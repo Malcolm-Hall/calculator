@@ -1,15 +1,19 @@
+$calculator-cols: 5;
+$calculator-rows: 7;
+$calc-aspect-ratio: #{$calculator-cols}/#{$calculator-rows};
+
 .calculator-container {
   display: flex;
   justify-content: space-around;
 }
 
-@media (min-aspect-ratio: 5/6) {
+@media (min-aspect-ratio: $calc-aspect-ratio) {
   .calculator {
     height: 95vh;
   }
 }
 
-@media (max-aspect-ratio: 5/6) {
+@media (max-aspect-ratio: $calc-aspect-ratio) {
   .calculator {
     width: 95vw;
   }
@@ -18,8 +22,8 @@
 .calculator {
   display: grid;
   grid-template-rows: 1fr 2fr;
-  aspect-ratio: 5/6;
-  font-size: min(6vw, 5vh);
+  aspect-ratio: $calc-aspect-ratio;
+  font-size: min(#{$calculator-rows}vw, #{$calculator-cols}vh);
 }
 
 .display-container {
@@ -60,10 +64,11 @@
   display: grid;
   grid-auto-columns: 1fr;
   grid-template-areas:
+    "null  null  left  right null2"
     "seven eight nine  del   ac "
     "four  five  six   mul   div"
     "one   two   three add   sub"
-    "zero  dec   null  ans   eq ";
+    "zero  dec   null3  ans   eq ";
 
   .key {
     font-size: inherit;

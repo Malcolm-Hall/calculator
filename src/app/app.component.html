@@ -2,8 +2,9 @@
   <div class="calculator">
     <div class="display">
       <div class="input">
-        &nbsp;&nbsp;{{ this.context.inputDisplay.displayValue
-        }}<span #caretEl class="caret">|</span>&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;{{ this.context.leftInputDisplay.displayValue
+        }}<span #caretEl class="caret">|</span
+        >{{ this.context.rightInputDisplay.displayValue }}&nbsp;&nbsp;&nbsp;
       </div>
       <div class="output">
         {{ context.outputDisplay?.displayValue }}&nbsp;&nbsp;

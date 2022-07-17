@@ -2,22 +2,36 @@ import { Display } from "./display";
 import { MathValue } from "./math-value";
 
 export class Context {
-    inputs: Array<MathValue> = [];
+    leftInputs: Array<MathValue> = [];
+    rightInputs: Array<MathValue> = [];
     lastOutput: MathValue = {
         displayValue: 'Ans',
         mathValue: '0',
     };
     outputDisplay?: Display
 
-    clear(): void {
-        this.inputs = [];
+    clearContext(): void {
+        this.leftInputs = [];
+        this.rightInputs = [];
         this.outputDisplay = undefined;
     }
 
-    get inputDisplay(): Display {
+    get leftInputDisplay(): Display {
+        return this.inputDisplay(this.leftInputs);
+    }
+
+    get rightInputDisplay(): Display {
+        return this.inputDisplay(this.rightInputs);
+    }
+
+    private inputDisplay(inputs: Array<MathValue>): Display {
         return {
-            displayValue: this.inputs.map(value => value.displayValue).join("")
-        }
+            displayValue: inputs.map(value => value.displayValue).join("")
+        };
+    }
+
+    clearOutput(): void {
+        this.outputDisplay = undefined;
     }
 
     setOutput(output: string): void {
@@ -25,5 +39,13 @@ export class Context {
         this.outputDisplay = {
             displayValue: output
         }
+    }
+
+    addInput(input: MathValue): void {
+        this.leftInputs.push(input);
+    }
+
+    get inputs(): Array<MathValue> {
+        return this.leftInputs.concat(this.rightInputs);
     }
 }

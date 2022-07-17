@@ -19,9 +19,9 @@ export class NumericKey implements Key, MathValue {
 
     operate(context: Context): void {
         if (context.outputDisplay) {
-            context.clear();
+            context.clearContext();
         }
-        context.inputs.push(this)
+        context.addInput(this)
     }
 }
 
@@ -34,10 +34,10 @@ export class MathKey implements Key, MathValue {
 
     operate(context: Context): void {
         if (context.outputDisplay) {
-            context.clear();
-            context.inputs.push(context.lastOutput);
+            context.clearContext();
+            context.addInput(context.lastOutput);
         }
-        context.inputs.push(this);
+        context.addInput(this);
     }
 }
 
@@ -110,22 +110,22 @@ export const keys: Array<Key> = [
         gridArea: 'del',
         displayValue: 'DEL',
         operate: (context: Context) => {
-            context.inputs.pop();
-            context.outputDisplay = undefined;
+            context.leftInputs.pop();
+            context.clearOutput();
         }
     },
     {
         gridArea: 'ac',
         displayValue: 'AC',
         operate: (context: Context) => {
-            context.clear();
+            context.clearContext();
         }
     },
     {
         displayValue: 'Ans',
         gridArea: 'ans',
         operate: function (context: Context) {
-            context.inputs.push({
+            context.addInput({
                 ...this,
                 mathValue: context.lastOutput.mathValue
             })
@@ -138,6 +138,28 @@ export const keys: Array<Key> = [
             const expr = context.inputs.reduce((expr, { mathValue }) => expr += mathValue, '');
             const output = String(eval(expr));
             context.setOutput(output);
+        }
+    },
+    {
+        gridArea: 'left',
+        displayValue: '<',
+        operate: (context: Context) => {
+            context.clearOutput();
+            const leftInput = context.leftInputs.pop();
+            if (leftInput) {
+                context.rightInputs.unshift(leftInput);
+            }
+        }
+    },
+    {
+        gridArea: 'right',
+        displayValue: '>',
+        operate: (context: Context) => {
+            context.clearOutput();
+            const rightInput = context.rightInputs.shift();
+            if (rightInput) {
+                context.leftInputs.push(rightInput);
+            }
         }
     },
 ]

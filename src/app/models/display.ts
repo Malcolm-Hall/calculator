@@ -1,3 +1,3 @@
 export interface Display {
-    displayValue: string
+    readonly displayValue: string
 }
